@@ -30,20 +30,32 @@ const windLayer = L.velocityLayer({
 });
 layerControl.addOverlay(windLayer, 'Wind');
 
-// const popDensityRenderer = L.LeafletGeotiff.plotty({
-//     colorScale: 'viridis',
+// const popLayer = L.geoJSON(popData, {
+//     style: {
+//         color: '#0000ff',
+//     },
 // });
+// layerControl.addOverlay(popLayer, 'Population Density');
 
-// const popDensityDataUrl = 'data/kenyapop/population_ken_2018-10-01.tif';
-// // create layer
-// const popDensityLayer = L.leafletGeotiff(popDensityDataUrl, {
-//     renderer: popDensityRenderer,
-// });
-// layerControl.addOverlay(popDensityLayer, 'Population Density');
+const popHeatMapLayer = L.heatLayer(heatmapPopData, {radius: 5});
+layerControl.addOverlay(popHeatMapLayer, 'Population Density Heatmap');
 
-const popLayer = L.geoJSON(popData, {
-    style: {
-        color: '#0000ff',
+const locustVelocityLayer = L.locustVelocityLayer({
+    displayValues: true,
+    displayOptions: {
+        velocityType: 'Wind',
+        displayPosition: 'bottomLeft',
+        displayEmptyString: 'No data',
     },
+    data: windData,
+    maxVelocity: 15,
+    maxParticles: 10,
+    lineWidth: 100,
+    locustPoints: [
+        [0.8130, 39.5728],
+        [1.8130, 38.5728],
+    ],
+    // lineWidth: 10,
+    particleAge: 200,
 });
-layerControl.addOverlay(popLayer, 'Population Density');
+layerControl.addOverlay(locustVelocityLayer, 'Locust Velocity Layer');
