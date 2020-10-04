@@ -1,4 +1,4 @@
-const map = L.map('map').setView([0.051774, 37.905596], 7);
+const map = L.map('map', {zoomControl: false}).setView([0.051774, 37.905596], 7);
 
 const tileLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -112,7 +112,7 @@ const controlCode = `
     <button id="goButton" onclick="zoomMap()">Go</button>
 `;
 
-L.control.custom({
+const finder = L.control.custom({
     position: 'topright',
     content: controlCode,
     style: {
@@ -122,6 +122,19 @@ L.control.custom({
         borderRadius: '5px',
         textAlign: 'center',
     },
+    classes: 'findercontrol',
+    events: {
+        dblclick: (data) => {
+            data.target.style.display = 'none';
+        },
+    }
+});
+
+finder.addTo(map);
+
+L.control.custom({
+    position: 'topleft',
+    content: '<img src="logo.png" height="150px" style="border-radius: 15px">',
 }).addTo(map);
 
 function zoomMap() {
