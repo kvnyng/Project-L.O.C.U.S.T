@@ -21,3 +21,7 @@ h1 {
     background: black;
     font-family: 'Inter', sans-serif;
 }
+
+.datepicker-dropdown {
+    z-index: 99999 !important;
+}

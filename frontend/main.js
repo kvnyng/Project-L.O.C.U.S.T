@@ -90,5 +90,66 @@ locustPoints.forEach((point) => {
 
 const locustLayerGroup = L.layerGroup([...locustPointMarkers, locustVelocityLayer]);
 
-
 layerControl.addOverlay(locustLayerGroup, 'Locust Locations and Movement');
+
+const controlCode = `
+    <h2>Find Locust Risk</h2>
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latfield" name="latitude" size="10">
+    <br><br>
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longfield" name="longitude" size="10">
+    <br><br>
+    <label for="datepicker">Date:</label>
+    <input type="text" name="datepicker" id="datefield" size="10">
+    <br><br>
+    <button id="goButton" onclick="zoomMap()">Go</button>
+`;
+
+L.control.custom({
+    position: 'topright',
+    content: controlCode,
+    style: {
+        margin: '10px',
+        padding: '10px',
+        background: '#eee',
+        borderRadius: '5px',
+        textAlign: 'center',
+    },
+}).addTo(map);
+
+function zoomMap() {
+    const latField = document.getElementById('latfield');
+    const longField = document.getElementById('longfield');
+    const lat = parseFloat(latField.value);
+    const long = parseFloat(longField.value);
+    if (!(isNaN(lat) || isNaN(long))) {
+        try {
+            map.setView(L.latLng(lat, long), 7, { animate: true, duration: 1 });
+            const markerOptions = [
+                {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 20000,
+                },
+                {
+                    color: 'green',
+                    fillColor: '#0f3',
+                    fillOpacity: 0.5,
+                    radius: 20000,
+                },
+            ];
+            // 0.7 chance it will say no
+            const good = Math.random() > 0.7;
+            L.circle(L.latLng(lat, long),
+                markerOptions[good ? 1 : 0],
+            ).bindPopup(`Area ${good ? 'OK' : 'at Risk'}`).addTo(map);
+        } catch (e) {
+            console.error('error:', e);
+        }
+    }
+}
+
+const elem = document.querySelector('input[name="datepicker"]');
+const datepicker = new Datepicker(elem);
