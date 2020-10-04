@@ -11,9 +11,7 @@ const tileLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{
 
 tileLayer.addTo(map);
 
-const layerControl = L.control.layers({
-    Tile: tileLayer,
-});
+const layerControl = L.control.layers();
 layerControl.addTo(map);
 
 const windLayer = L.velocityLayer({
