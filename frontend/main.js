@@ -62,6 +62,12 @@ layerControl.addOverlay(cropLayer, 'Cropland');
 const popHeatMapLayer = L.heatLayer(heatmapPopData, {radius: 7});
 layerControl.addOverlay(popHeatMapLayer, 'Population Density Heatmap');
 
+const oldPredictionLayer = L.heatLayer(oldPrediction, { radius: 20, max: 1, minOpacity: 0.7, gradient: { 0.1: 'red', 1: 'yellow' } });
+layerControl.addOverlay(oldPredictionLayer, 'June Prediction Heatmap');
+
+const newPredictionLayer = L.heatLayer(newPrediction, { radius: 20, max: 1, minOpacity: 0.7, gradient: { 0.1: 'cyan', 1: 'purple' } });
+layerControl.addOverlay(newPredictionLayer, 'September Prediction Heatmap');
+
 const locustVelocityLayer = L.locustVelocityLayer({
     displayValues: true,
     displayOptions: {
@@ -141,6 +147,7 @@ function zoomMap() {
                 },
             ];
             // 0.7 chance it will say no
+            // Connect this to the actual model in the future
             const good = Math.random() > 0.7;
             L.circle(L.latLng(lat, long),
                 markerOptions[good ? 1 : 0],
