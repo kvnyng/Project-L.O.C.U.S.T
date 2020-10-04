@@ -1,4 +1,4 @@
-# Project-L.O.C.U.S.T
+# Project-L.L.O.C.U.S.T
 
 This project was developed by a diverse team of coders, ML enthusiasts, story-tellers and UI/UX developers as a part of submission for the [NASA's SpaceApp Challenege 2020](https://www.spaceappschallenge.org/)
 
