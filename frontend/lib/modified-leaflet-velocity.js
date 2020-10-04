@@ -451,6 +451,7 @@ var LocustWindy = function LocustWindy(params) {
   var NULL_WIND_VECTOR = [NaN, NaN, null]; // singleton for no wind in the form: [u, v, magnitude]
 
   var LOCUST_POINTS = params.locustPoints || [];
+  var SPEED_SCALER = params.speedScaler || 1;
 
   var builder;
   var grid;
@@ -863,7 +864,7 @@ var LocustWindy = function LocustWindy(params) {
         bucket.length = 0;
       });
       particles.forEach(function (particle) {
-        if (particle.age > MAX_PARTICLE_AGE) {
+        if (particle.age > (MAX_PARTICLE_AGE * scaler)) {
           field.randomize(particle).age = 0;
         }
 
@@ -876,8 +877,8 @@ var LocustWindy = function LocustWindy(params) {
         if (m === null) {
           particle.age = MAX_PARTICLE_AGE; // particle has escaped the grid, never to return...
         } else {
-          var xt = x + v[0];
-          var yt = y + v[1];
+          var xt = x + v[0] * SPEED_SCALER;
+          var yt = y + v[1] * SPEED_SCALER;
 
           if (field(xt, yt)[2] !== null) {
             // Path from (x,y) to (xt,yt) is visible, so add this particle to the appropriate draw bucket.
@@ -899,7 +900,13 @@ var LocustWindy = function LocustWindy(params) {
     g.lineWidth = PARTICLE_LINE_WIDTH;
     g.fillStyle = fadeFillStyle;
     console.log('fill style was set');
+    g.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
     g.globalAlpha = 0.9;
+
+    // https://wiki.openstreetmap.org/wiki/Zoom_levels#Distance_per_pixel_math
+    // const pixelSize = (40075016.686 * Math.cos(deg2rad(map.getBounds().getCenter().lat))) / Math.pow(2, params.map.getZoom() + 8)
+    // const scaler = 10000 / pixelSize;
+    const scaler = params.map.getZoomScale(map.getZoom(), 1) / 8;
 
     function draw() {
       // Fade existing particle trails.
@@ -916,7 +923,7 @@ var LocustWindy = function LocustWindy(params) {
         //   g.strokeStyle = colorStyles[i];
         g.strokeStyle = '#ff0000cc';
           bucket.forEach(function (particle) {
-            g.lineWidth = (PARTICLE_LINE_WIDTH / 2) * (particle.age / MAX_PARTICLE_AGE);
+            g.lineWidth = ((PARTICLE_LINE_WIDTH / 2) * (particle.age / (MAX_PARTICLE_AGE * scaler))) * scaler;
             g.moveTo(particle.x, particle.y);
             g.lineTo(particle.xt, particle.yt);
             // g.beginPath();
