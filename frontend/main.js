@@ -84,12 +84,17 @@ const locustVelocityLayer = L.locustVelocityLayer({
 const locustPointMarkers = [];
 
 locustPoints.forEach((point) => {
-    locustPointMarkers.push(L.circle(point, {
+    const dotLayer = L.circle(point, {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
-        radius: 5000,
-    }));
+        radius: 6000,
+    });
+    locustPointMarkers.push(dotLayer);
+    const min = 50;
+    const max = 240;
+    const cost = Math.floor(Math.random() * (max - min + 1) + min);
+    dotLayer.bindPopup(`Estimated Economic Impact: $${cost},000`);
 });
 
 const locustLayerGroup = L.layerGroup([...locustPointMarkers, locustVelocityLayer]);
@@ -123,7 +128,7 @@ const finder = L.control.custom({
     classes: 'findercontrol',
     events: {
         dblclick: (data) => {
-            data.target.style.display = 'none';
+            document.querySelector('.findercontrol').style.display = 'none';
         },
     }
 });
