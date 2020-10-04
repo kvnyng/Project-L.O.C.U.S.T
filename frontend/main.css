@@ -1,0 +1,27 @@
+html, body {
+    margin: 0;
+}
+
+body {
+    min-width: 100vh;
+    font-family: 'Inter', sans-serif;
+    /* background: black; */
+    /* color: #eee; */
+    /* padding: 10vh 8vw; */
+}
+
+h1 {
+    margin: 0;
+    font-weight: 900;
+    font-size: 3rem;
+}
+
+#map {
+    height: 100vh;
+    background: black;
+    font-family: 'Inter', sans-serif;
+}
+
+.datepicker-dropdown {
+    z-index: 99999 !important;
+}
