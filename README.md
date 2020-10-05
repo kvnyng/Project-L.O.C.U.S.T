@@ -11,4 +11,4 @@ Project L.L.O.C.U.S.T identifies and predicts the probability of locust invasion
 [Find the demo here](https://determined-keller-5cbae8.netlify.app/)
 
 ## Video
-[Find the video here]()
+[Find the video here](https://youtu.be/RI2gLdX9DAE)
