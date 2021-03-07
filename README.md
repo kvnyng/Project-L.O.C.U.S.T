@@ -12,3 +12,6 @@ Project L.L.O.C.U.S.T identifies and predicts the probability of locust invasion
 
 ## Video
 [Find the video here](https://youtu.be/RI2gLdX9DAE)
+
+### Attribution 
+Locust logo (pentagon shape) is from [Dan Vallentyne](http://kidconcept.com/content/tags/design/locust-mech-logo/)
